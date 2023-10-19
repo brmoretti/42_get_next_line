@@ -6,7 +6,7 @@
 /*   By: bmoretti <bmoretti@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:24:15 by bmoretti          #+#    #+#             */
-/*   Updated: 2023/10/19 12:35:46 by bmoretti         ###   ########.fr       */
+/*   Updated: 2023/10/19 14:04:34 by bmoretti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(void)
 	int		i;
 	char	fl_name[] = "text0.txt";
 
-	n_files = 4;
+	n_files = 1;
 	fds = malloc(sizeof(int) * n_files);
 	i = -1;
 	while (++i < n_files)
@@ -40,6 +40,8 @@ int	main(void)
 		}
 		printf("File %s opened with fd %d\n", fl_name, fds[i]);
 	}
-	// line = get_next_line(fd);
+	line = get_next_line(fds[0]);
+	line = get_next_line(fds[0]);
+	line = get_next_line(fds[0]);
 	return (0);
 }
