@@ -6,7 +6,7 @@
 /*   By: bmoretti <bmoretti@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 23:25:38 by bmoretti          #+#    #+#             */
-/*   Updated: 2023/10/20 00:07:24 by bmoretti         ###   ########.fr       */
+/*   Updated: 2023/10/20 01:08:05 by bmoretti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,23 @@
 #include <strings.h> //to remove
 #define BUFFER_SIZE 30 //to remove
 
+int	ft_seek_end_or_backslash_n(char **str, char *end)
+{
+	while (*str < end && **str != '\n')
+		(*str)++;
+	if (**str == '\n')
+		return (1);
+	return (0);
+}
+
 char	*ft_buffer_leftover(size_t *i, char *buffer, size_t lo_limit)
 {
 	size_t	j;
 	char	*b_leftover;
 	char	*ptr;
 
+	if (!*i)
+		return (NULL);
 	j = *i;
 	while (*i && *i < lo_limit && buffer[*i] != '\n')
 		(*i)++;
@@ -45,7 +56,7 @@ char	*get_next_line(int fd)
 	char			*line;
 
 	line = ft_buffer_leftover(&i, buffer, n_bytes);
-	if (i || !line)
+	if (i && !NULL)
 		return (line);
 	n_bytes = read(fd, buffer, BUFFER_SIZE);
 	if (n_bytes < BUFFER_SIZE)
