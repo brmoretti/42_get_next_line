@@ -6,7 +6,7 @@
 /*   By: bmoretti <bmoretti@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 23:25:38 by bmoretti          #+#    #+#             */
-/*   Updated: 2023/10/20 19:57:34 by bmoretti         ###   ########.fr       */
+/*   Updated: 2023/10/21 00:08:03 by bmoretti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_buffer_leftover(size_t *i, char *buffer, size_t lo_limit)
 	while (j < *i)
 		*(ptr++) = buffer[j++];
 	*ptr = '\0';
-	if (++(*i) == lo_limit)
+	if (++(*i) > lo_limit)
 		*i = 0;
 	return (b_leftover);
 }

@@ -6,7 +6,7 @@
 /*   By: bmoretti <bmoretti@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:24:15 by bmoretti          #+#    #+#             */
-/*   Updated: 2023/10/20 18:00:56 by bmoretti         ###   ########.fr       */
+/*   Updated: 2023/10/21 00:17:40 by bmoretti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,13 @@ int	main(void)
 		}
 		printf("File %s opened with fd %d\n", fl_name, fds[i]);
 	}
-	printf("%s\n", get_next_line(fds[0]));
-	printf("%s\n", get_next_line(fds[0]));
-	printf("%s\n", get_next_line(fds[0]));
-	printf("%s\n", get_next_line(fds[0]));
-	printf("%s\n", get_next_line(fds[0]));
-	printf("%s\n", get_next_line(fds[0]));
+	i = -1;
+	while (i++ < 6)
+	{
+		line = get_next_line(fds[0]);
+		printf("%d: %s$\n", i, line);
+		free(line);
+	}
+	free(fds);
 	return (0);
 }
