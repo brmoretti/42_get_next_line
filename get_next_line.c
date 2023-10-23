@@ -6,14 +6,14 @@
 /*   By: bmoretti <bmoretti@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 23:25:38 by bmoretti          #+#    #+#             */
-/*   Updated: 2023/10/21 00:08:03 by bmoretti         ###   ########.fr       */
+/*   Updated: 2023/10/21 16:57:46 by bmoretti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>     //to remove
 #include <strings.h>   //to remove
-#define BUFFER_SIZE 30 // to remove
+#define BUFFER_SIZE 1000 // to remove
 
 char	*ft_buffer_leftover(size_t *i, char *buffer, size_t lo_limit)
 {
@@ -42,17 +42,6 @@ char	*ft_buffer_leftover(size_t *i, char *buffer, size_t lo_limit)
 	return (b_leftover);
 }
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	if (!s)
-		return (0);
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
 
 size_t	ft_seek_end_or_backslash_n(char *str, size_t max_len)
 {
@@ -67,28 +56,20 @@ size_t	ft_seek_end_or_backslash_n(char *str, size_t max_len)
 	return (max_len);
 }
 
-char	*ft_strljoin(char **s1, char *s2, size_t len_s2)
+int	ft_read_continue(int fd, char *buffer, size_t *n_bytes,
+	size_t *end_index)
 {
-	size_t		len;
-	char		*joined;
-	char		*origin;
-	char		*s1_sub;
+	*n_bytes = read(fd, buffer, BUFFER_SIZE);
+	if (*n_bytes == 0)
+		return (0);
+	*end_index = ft_seek_end_or_backslash_n(buffer, *n_bytes);
+	return (1);
+}
 
-	if (!s1 || !*s1 || !s2)
-		return (NULL);
-	s1_sub = *s1;
-	len = ft_strlen(s1_sub) + len_s2;
-	joined = malloc(len + 1);
-	if (joined == NULL)
-		return (NULL);
-	origin = joined;
-	while (*s1_sub)
-		*(joined++) = *(s1_sub++);
-	while (len_s2--)
-		*(joined++) = *(s2++);
-	*joined = '\0';
-	free (*s1);
-	return (origin);
+char	*ft_EOF(char *line)
+{
+	free(line);
+	return (NULL);
 }
 
 char	*get_next_line(int fd)
@@ -96,24 +77,23 @@ char	*get_next_line(int fd)
 	static char		buffer[BUFFER_SIZE];
 	static size_t	i;
 	static size_t	n_bytes;
-	size_t			final_bytes;
+	size_t			end_index;
 	char			*line;
 
 	line = ft_buffer_leftover(&i, buffer, n_bytes);
 	if (i || !line)
 		return (line);
-	n_bytes = read(fd, buffer, BUFFER_SIZE);
-	final_bytes = ft_seek_end_or_backslash_n(buffer, n_bytes);
-	while (final_bytes == n_bytes)
+	if (!ft_read_continue(fd, buffer, &n_bytes, &end_index))
+		return (ft_EOF(line));
+	while (end_index == n_bytes)
 	{
 		line = ft_strljoin(&line, buffer, n_bytes);
 		if (!line)
 			return (NULL);
-		final_bytes = ft_seek_end_or_backslash_n(buffer, n_bytes);
+		if (!ft_read_continue(fd, buffer, &n_bytes, &end_index))
+			return (line);
 	}
-	line = ft_strljoin(&line, buffer, final_bytes);
-	i = final_bytes + 1;
-	if (i == BUFFER_SIZE)
-		i = 0;
+	line = ft_strljoin(&line, buffer, end_index);
+	i = end_index + 1;
 	return (line);
 }

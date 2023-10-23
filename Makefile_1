@@ -1,0 +1,32 @@
+NAME = get_next_line
+
+BUFFER_SIZE = 42
+
+HEADER_BONUS = get_next_line_bonus.h
+
+FILES = \
+ get_next_line.c get_next_line_utils.c get_next_line.h
+
+FILES_BONUS = \
+ get_next_line_bonus.c get_next_line_utils_bonus.c get_next_line_bonus.h
+
+FLAGS = -Wall -Werror -Wextra
+
+.PHONY: all clean fclean re bonus
+
+all: $(NAME)
+
+$(NAME) : $(FILES)
+	cc $(FLAGS) -D BUFFER_SIZE=$(BUFFER_SIZE) $(FILES) -o $@
+
+bonus : $(FILES_BONUS)
+	@ cc $(FLAGS) -D BUFFER_SIZE=$(BUFFER_SIZE) $(FILES_BONUS) -o $@
+
+clean:
+	@ rm -f *.o
+	@ echo "cleaned"
+
+fclean: clean
+	@ rm -f $(NAME)
+
+re: fclean all
