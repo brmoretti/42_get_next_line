@@ -5,95 +5,102 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmoretti <bmoretti@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/18 23:25:38 by bmoretti          #+#    #+#             */
-/*   Updated: 2023/10/21 16:57:46 by bmoretti         ###   ########.fr       */
+/*   Created: 2023/10/22 21:44:09 by bmoretti          #+#    #+#             */
+/*   Updated: 2023/10/25 00:09:11 by bmoretti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>     //to remove
-#include <strings.h>   //to remove
-#define BUFFER_SIZE 1000 // to remove
 
-char	*ft_buffer_leftover(size_t *i, char *buffer, size_t lo_limit)
-{
-	size_t	j;
-	char	*b_leftover;
-	char	*ptr;
-
-	if (!lo_limit || *i >= lo_limit)
-	{
-		*i = 0;
-		b_leftover = calloc(1, 1);
-		return (b_leftover);
-	}
-	j = *i;
-	while (*i < lo_limit && buffer[*i] != '\n')
-		(*i)++;
-	b_leftover = malloc((*i - j) + 1);
-	if (!b_leftover)
-		return (NULL);
-	ptr = b_leftover;
-	while (j < *i)
-		*(ptr++) = buffer[j++];
-	*ptr = '\0';
-	if (++(*i) > lo_limit)
-		*i = 0;
-	return (b_leftover);
-}
-
-
-size_t	ft_seek_end_or_backslash_n(char *str, size_t max_len)
+size_t	ft_strlen_till_bslash_n(const char *s)
 {
 	size_t	i;
 
-	i = 0;
-	while (i < max_len)
-	{
-		if (str[i++] == '\n')
-			return (i - 1);
-	}
-	return (max_len);
-}
-
-int	ft_read_continue(int fd, char *buffer, size_t *n_bytes,
-	size_t *end_index)
-{
-	*n_bytes = read(fd, buffer, BUFFER_SIZE);
-	if (*n_bytes == 0)
+	if (!s)
 		return (0);
-	*end_index = ft_seek_end_or_backslash_n(buffer, *n_bytes);
-	return (1);
+	i = 0;
+	while (s[i])
+	{
+		if (s[++i - 1] == '\n')
+			break ;
+	}
+	return (i);
 }
 
-char	*ft_EOF(char *line)
+char	*ft_join_till_bslash_n(char *dst, char *src)
 {
-	free(line);
-	return (NULL);
+	ssize_t	i;
+	ssize_t	j;
+	char	*joined;
+
+	joined = malloc(ft_strlen(dst) + ft_strlen_till_bslash_n(src) + 1);
+	if (!joined)
+		return (NULL);
+	i = 0;
+	while (dst && dst[i])
+	{
+		joined[i] = dst[i];
+		i++;
+	}
+	if (dst)
+		free(dst);
+	j = 0;
+	while (src && src[j])
+	{
+		joined[i + j] = src[j];
+		if (src[++j - 1] == '\n')
+			break ;
+	}
+	joined[i + j] = '\0';
+	return (joined);
+}
+
+void	ft_move_to_begin(char *to, char *from)
+{
+	while (*from)
+		*(to++) = *(from++);
+	while (*to)
+		(*to++) = '\0';
+}
+
+char	*ft_line_iterative(int fd, char *buffer, ssize_t *read_size)
+{
+	char	*slash_n;
+	char	*line;
+
+	line = NULL;
+	while (1)
+	{
+		if (!*buffer)
+			*read_size = read(fd, buffer, BUFFER_SIZE);
+		if ((!*read_size && !*buffer) || *read_size == -1)
+			return (line);
+		line = ft_join_till_bslash_n(line, buffer);
+		if (!line)
+			return (NULL);
+		slash_n = ft_strchr(buffer, '\n');
+		if (slash_n)
+			break ;
+		ft_bzero(buffer, BUFFER_SIZE + 1);
+	}
+	ft_move_to_begin(buffer, slash_n + 1);
+	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	static char		buffer[BUFFER_SIZE];
-	static size_t	i;
-	static size_t	n_bytes;
-	size_t			end_index;
-	char			*line;
+	static char	buffer[BUFFER_SIZE + 1];
+	char		*line;
+	ssize_t		read_size;
 
-	line = ft_buffer_leftover(&i, buffer, n_bytes);
-	if (i || !line)
-		return (line);
-	if (!ft_read_continue(fd, buffer, &n_bytes, &end_index))
-		return (ft_EOF(line));
-	while (end_index == n_bytes)
+	read_size = 0;
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, buffer, 0) == -1)
+		return (NULL);
+	line = ft_line_iterative(fd, buffer, &read_size);
+	if (line && (read_size == -1 || !*line))
 	{
-		line = ft_strljoin(&line, buffer, n_bytes);
-		if (!line)
-			return (NULL);
-		if (!ft_read_continue(fd, buffer, &n_bytes, &end_index))
-			return (line);
+		free (line);
+		return (NULL);
 	}
-	line = ft_strljoin(&line, buffer, end_index);
-	i = end_index + 1;
 	return (line);
 }
