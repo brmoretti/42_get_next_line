@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmoretti <bmoretti@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 21:44:09 by bmoretti          #+#    #+#             */
-/*   Updated: 2023/10/25 22:36:02 by bmoretti         ###   ########.fr       */
+/*   Updated: 2023/10/25 20:38:07 by bmoretti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-//#define BUFFER_SIZE 100
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen_till_bslash_n(const char *s)
 {
@@ -90,14 +89,23 @@ char	*ft_line_iterative(int fd, char *buffer, ssize_t *read_size)
 
 char	*get_next_line(int fd)
 {
-	static char	buffer[BUFFER_SIZE + 1];
+	static char	*buffer[1024];
 	char		*line;
 	ssize_t		read_size;
 
 	read_size = 0;
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > 1023)
 		return (NULL);
-	line = ft_line_iterative(fd, buffer, &read_size);
+	if (!buffer[fd])
+		buffer[fd] = ft_calloc(BUFFER_SIZE + 1, 1);
+	if (!buffer[fd])
+		return (NULL);
+	line = ft_line_iterative(fd, buffer[fd], &read_size);
+	if (read_size == -1 || (buffer[fd] && !*buffer[fd]))
+	{
+		free (buffer[fd]);
+		buffer[fd] = NULL;
+	}
 	if (line && (read_size == -1 || !*line))
 	{
 		free (line);
