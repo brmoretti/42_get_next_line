@@ -53,20 +53,23 @@ Once the `get_next_line` function is implemented and tested, you can integrate i
 
 ```c
 #include "get_next_line.h"
+#include <stdio.h>
 
-int main() {
-    int fd = open("example.txt", O_RDONLY);
-    char *line;
+int  main(void)
+{
+    int      fd;
+    char     *line;
 
-    while (get_next_line(fd, &line) > 0) {
-        // Process the line as needed
-        ft_putstr(line);
-        ft_putchar('\n');
+    fd = open("example.txt", O_RDONLY);
+    line = get_next_line(fd);
+    while (line)
+    {
+        printf("%s\n", line);
         free(line);
+        line = get_next_line(fd);
     }
-
     close(fd);
-    return 0;
+    return (0);
 }
 ```
 
