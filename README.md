@@ -13,7 +13,6 @@ The `get_next_line` project at 42 school is a crucial challenge where students i
 - [Getting Started](#getting-started)
 - [Usage](#usage)
 - [Project Structure](#project-structure)
-- [Documentation](#documentation)
 
 ## Getting Started
 
