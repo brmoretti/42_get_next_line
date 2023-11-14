@@ -6,12 +6,18 @@
 /*   By: bmoretti <bmoretti@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 21:44:09 by bmoretti          #+#    #+#             */
-/*   Updated: 2023/10/25 20:38:07 by bmoretti         ###   ########.fr       */
+/*   Updated: 2023/11/14 15:29:00 by bmoretti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
+/**
+ * @brief Calculates the length of a string until the first newline character.
+ *
+ * @param s The input string.
+ * @return The length of the string until the first newline character.
+ */
 size_t	ft_strlen_till_bslash_n(const char *s)
 {
 	size_t	i;
@@ -27,6 +33,14 @@ size_t	ft_strlen_till_bslash_n(const char *s)
 	return (i);
 }
 
+/**
+ * @brief Joins two strings until the first newline character is encountered
+ *        in the second string or until the end if not encountered.
+ *
+ * @param dst The destination string.
+ * @param src The source string.
+ * @return The joined string.
+ */
 char	*ft_join_till_bslash_n(char *dst, char *src)
 {
 	ssize_t	i;
@@ -55,6 +69,12 @@ char	*ft_join_till_bslash_n(char *dst, char *src)
 	return (joined);
 }
 
+/**
+ * @brief Cut and paste the content of one string to the beginning of another.
+ *
+ * @param to The destination string.
+ * @param from The source string.
+ */
 void	ft_move_to_begin(char *to, char *from)
 {
 	while (*from)
@@ -63,6 +83,15 @@ void	ft_move_to_begin(char *to, char *from)
 		(*to++) = '\0';
 }
 
+/**
+ * @brief Reads lines iteratively from a file descriptor until a newline
+ *        character is encountered, the file ends or an read error occurs.
+ *
+ * @param fd The file descriptor.
+ * @param buffer The buffer for reading from the file.
+ * @param read_size A pointer to the variable storing the read size.
+ * @return The next line read from the file.
+ */
 char	*ft_line_iterative(int fd, char *buffer, ssize_t *read_size)
 {
 	char	*slash_n;
@@ -87,6 +116,13 @@ char	*ft_line_iterative(int fd, char *buffer, ssize_t *read_size)
 	return (line);
 }
 
+/**
+ * @brief Reads the next line from a file descriptor. Can handle multiples file
+ *        descriptors at once.
+ *
+ * @param fd The file descriptor.
+ * @return The next line read from the file.
+ */
 char	*get_next_line(int fd)
 {
 	static char	*buffer[1024];

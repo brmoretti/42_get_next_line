@@ -6,7 +6,7 @@
 /*   By: bmoretti <bmoretti@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 23:26:38 by bmoretti          #+#    #+#             */
-/*   Updated: 2023/10/25 00:10:02 by bmoretti         ###   ########.fr       */
+/*   Updated: 2023/10/30 14:06:06 by bmoretti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 80
+# endif
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
