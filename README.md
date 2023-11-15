@@ -1,7 +1,6 @@
 # get_next_line
 <p align="center">
   <img src="https://game.42sp.org.br/static/assets/achievements/get_next_linem.png" alt="Achievement Image"><br>
-    <b>Grade: 125/100</b>
 </p>
 
 ## Overview
