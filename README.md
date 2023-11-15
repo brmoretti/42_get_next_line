@@ -1,4 +1,4 @@
-# get_next_line
+# 42: get_next_line Including Bonus
 <p align="center">
   <img src="https://game.42sp.org.br/static/assets/achievements/get_next_linem.png" alt="Achievement Image"><br>
 </p>
@@ -75,4 +75,4 @@ int  main(void)
 
 The project consists of a single source file (`get_next_line.c`) containing the implementation of the `get_next_line` function. The `get_next_line.h` header file declares the function prototype and includes any necessary libraries.
 
-The `Makefile` or compilation script provided may facilitate building and testing the project. Ensure that dynamic memory allocation and file descriptor handling are appropriately managed in the implementation.
+Ensure that dynamic memory allocation and file descriptor handling are appropriately managed in the implementation.
