@@ -26,7 +26,7 @@ To begin working on the `get_next_line` project, follow these steps:
 2. Navigate to the project directory:
 
     ```bash
-    cd get_next_line
+    cd 42_get_next_line
     ```
 
 3. Implement the `get_next_line` function according to the project requirements.
@@ -73,8 +73,6 @@ int  main(void)
 
 ## Project Structure
 
-The project typically consists of a single source file (`get_next_line.c`) containing the implementation of the `get_next_line` function. The `get_next_line.h` header file declares the function prototype and includes any necessary libraries.
+The project consists of a single source file (`get_next_line.c`) containing the implementation of the `get_next_line` function. The `get_next_line.h` header file declares the function prototype and includes any necessary libraries.
 
 The `Makefile` or compilation script provided may facilitate building and testing the project. Ensure that dynamic memory allocation and file descriptor handling are appropriately managed in the implementation.
-
-Additionally, the project might include a set of test cases to validate the functionality of the `get_next_line` function.
