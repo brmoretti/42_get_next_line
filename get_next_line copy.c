@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line copy.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brmoretti <brmoretti@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 19:16:35 by brmoretti         #+#    #+#             */
-/*   Updated: 2024/01/07 10:42:51 by brmoretti        ###   ########.fr       */
+/*   Updated: 2024/01/07 10:57:28 by brmoretti        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,16 @@ static char	*line_iterative(t_buffer *buf, int fd, char *line)
 
 char	*get_next_line(int fd)
 {
-	static t_buffer	buf;
-	char			*line;
+	static t_buffer		buf;
+	static	t_buffer	arr[1024];
+	char				*line;
 
-	if (fd < 0 || BUFFER_SIZE < 1)
+	if (fd < 0 || BUFFER_SIZE < 1 || fd >= 1024)
 		return (NULL);
+	if (!arr[fd])
+	{
+		
+	}
 	line = ft_calloc(1, sizeof(char));
 	if (!line)
 		return (NULL);
