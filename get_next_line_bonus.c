@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line copy.c                               :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brmoretti <brmoretti@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 19:16:35 by brmoretti         #+#    #+#             */
-/*   Updated: 2024/01/07 10:57:28 by brmoretti        ###   ########.fr       */
+/*   Updated: 2024/01/07 12:25:56 by brmoretti        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*merge_n_right(char *left, char *right, size_t n_right)
 {
 	char	*merged;
 	size_t	size;
-	
+
 	size = ft_strlen(left) + n_right + 1;
 	merged = malloc(size * sizeof(char));
 	if (merged)
@@ -78,19 +78,28 @@ static char	*line_iterative(t_buffer *buf, int fd, char *line)
 
 char	*get_next_line(int fd)
 {
-	static t_buffer		buf;
-	static	t_buffer	arr[1024];
-	char				*line;
+	static t_buffer	*arr[1024];
+	char			*line;
 
 	if (fd < 0 || BUFFER_SIZE < 1 || fd >= 1024)
 		return (NULL);
 	if (!arr[fd])
-	{
-		
-	}
+		arr[fd] = ft_calloc(1, sizeof(t_buffer));
+	if (!arr[fd])
+		return (NULL);
 	line = ft_calloc(1, sizeof(char));
 	if (!line)
+	{
+		free (arr[fd]);
+		arr[fd] = NULL;
 		return (NULL);
-	buf.bslash = 0;
-	return (line_iterative(&buf, fd, line));
+	}
+	arr[fd]->bslash = 0;
+	line = line_iterative(arr[fd], fd, line);
+	if (!line)
+	{
+		free(arr[fd]);
+		arr[fd] = NULL;
+	}
+	return (line);
 }

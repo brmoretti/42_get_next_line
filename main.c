@@ -6,7 +6,7 @@
 /*   By: brmoretti <brmoretti@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 20:44:23 by brmoretti         #+#    #+#             */
-/*   Updated: 2024/01/07 09:16:04 by brmoretti        ###   ########.fr       */
+/*   Updated: 2024/01/07 12:31:27 by brmoretti        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(void)
 	int		fd;
 	char	*line;
 
-	fd = open("ffiles/multiple_nl.txt", O_RDONLY);
+	fd = open("ffiles/giant_line_nl.txt", O_RDONLY);
 	line = get_next_line(fd);
 	while (line)
 	{

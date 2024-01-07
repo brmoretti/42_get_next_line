@@ -6,7 +6,7 @@
 /*   By: brmoretti <brmoretti@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 19:16:35 by brmoretti         #+#    #+#             */
-/*   Updated: 2024/01/07 10:42:51 by brmoretti        ###   ########.fr       */
+/*   Updated: 2024/01/07 12:25:16 by brmoretti        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*merge_n_right(char *left, char *right, size_t n_right)
 {
 	char	*merged;
 	size_t	size;
-	
+
 	size = ft_strlen(left) + n_right + 1;
 	merged = malloc(size * sizeof(char));
 	if (merged)
