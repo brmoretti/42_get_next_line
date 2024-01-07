@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoretti <bmoretti@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: brmoretti <brmoretti@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/18 23:25:51 by bmoretti          #+#    #+#             */
-/*   Updated: 2023/10/24 21:24:11 by bmoretti         ###   ########.fr       */
+/*   Created: 2024/01/06 19:17:19 by brmoretti         #+#    #+#             */
+/*   Updated: 2024/01/06 23:55:36 by brmoretti        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,10 @@ size_t	ft_strlen(const char *s)
 {
 	size_t	i;
 
-	if (!s)
-		return (0);
 	i = 0;
 	while (s[i])
 		i++;
 	return (i);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	while (*s)
-		if (*s++ == (unsigned char)c)
-			return ((char *)--s);
-	if ((unsigned char)c == '\0')
-		return ((char *)s);
-	return (NULL);
 }
 
 void	ft_bzero(void *s, size_t n)
@@ -43,4 +31,19 @@ void	ft_bzero(void *s, size_t n)
 	ptr = (char *)s;
 	while (n-- != 0)
 		*(ptr++) = '\0';
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*ptr;
+	size_t	total;
+
+	total = nmemb * size;
+	if (nmemb && total / nmemb != size)
+		return (NULL);
+	ptr = malloc(total);
+	if (!ptr)
+		return (NULL);
+	ft_bzero(ptr, total);
+	return (ptr);
 }

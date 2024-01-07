@@ -1,35 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brmoretti <brmoretti@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/06 19:16:57 by brmoretti         #+#    #+#             */
-/*   Updated: 2024/01/07 00:00:47 by brmoretti        ###   ########.fr       */
+/*   Created: 2024/01/06 20:44:23 by brmoretti         #+#    #+#             */
+/*   Updated: 2024/01/07 00:00:27 by brmoretti        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "get_next_line.h"
+#include <fcntl.h>
+#include <stdio.h>
 
-# include <stdlib.h>
-# include <unistd.h>
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
-# endif
-
-typedef struct s_buffer
-{
-	char	buffer[BUFFER_SIZE + 1];
-	char	*p;
-	size_t	read_size;
-}	t_buffer;
-
-void	*ft_calloc(size_t nmemb, size_t size);
-size_t	ft_strlen(const char *s);
-void	ft_bzero(void *s, size_t n);
 char	*get_next_line(int fd);
 
-#endif
+int	main(void)
+{
+	int		fd;
+	char	*line;
+
+	fd = open("files/42_with_nl", O_RDONLY);
+	line = get_next_line(fd);
+	while (line)
+	{
+		printf("%s", line);
+		free(line);
+		line = get_next_line(fd);
+	}
+	line = get_next_line(fd);
+	printf("\n%s\n", line);
+	close(fd);
+	return (0);
+}
